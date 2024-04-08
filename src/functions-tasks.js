@@ -153,7 +153,7 @@ function retry(func, attempts) {
           return res;
         }
       } catch (error) {
-        console.log('Error');
+        console.log('err');
       }
     }
     return attempts;
@@ -187,7 +187,6 @@ function retry(func, attempts) {
 function logger(func, logFunc) {
   return (...args) => {
     if (!logFunc) return '-1';
-    console.log(args);
     logFunc(`${func.name}(${args.toString()}) starts`);
     const res = func(...args);
     logFunc(`${func.name}(${args}) ends`);
@@ -212,12 +211,10 @@ function logger(func, logFunc) {
  */
 function partialUsingArguments(fn, ...args1) {
   return () => {
-    console.log(args1);
     if (args1.length >= fn.length) {
       return fn(...args1);
     }
     return (...args2) => {
-      console.log(args2);
       fn(...args1, ...args2);
     };
   };
