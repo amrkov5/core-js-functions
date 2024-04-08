@@ -145,6 +145,7 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
+  let a = 0;
   return () => {
     for (let i = 0; i < attempts; i += 1) {
       try {
@@ -153,10 +154,10 @@ function retry(func, attempts) {
           return res;
         }
       } catch (error) {
-        console.log('err');
+        a += 1;
       }
     }
-    return attempts;
+    return a;
   };
   // throw new Error('Not implemented');
 }
