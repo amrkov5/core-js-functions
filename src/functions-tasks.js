@@ -92,14 +92,15 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  // const args = Array.from(arguments);
-  // if (args.length === 0) {
-  //   return null;
-  // }
-
-  // return;
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  return (x) => {
+    let res = 0;
+    for (let i = 0; i < args.length; i += 1) {
+      res += args[i] * x ** (args.length - 1 - i);
+    }
+    return res;
+  };
+  // throw new Error('Not implemented');
 }
 
 /**
@@ -188,9 +189,12 @@ function retry(func, attempts) {
 function logger(func, logFunc) {
   return (...args) => {
     if (!logFunc) return '-1';
-    logFunc(`${func.name}(${args.toString()}) starts`);
+    const argToPrint = JSON.stringify(args);
+    logFunc(
+      `${func.name}(${argToPrint.slice(1, argToPrint.length - 1)}) starts`
+    );
     const res = func(...args);
-    logFunc(`${func.name}(${args}) ends`);
+    logFunc(`${func.name}(${argToPrint.slice(1, argToPrint.length - 1)}) ends`);
     return res;
   };
 
@@ -211,15 +215,9 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn, ...args1) {
-  return () => {
-    if (args1.length >= fn.length) {
-      return fn(...args1);
-    }
-    return (...args2) => {
-      fn(...args1, ...args2);
-    };
+  return (...args2) => {
+    return fn(...args1, ...args2);
   };
-
   // throw new Error('Not implemented');
 }
 
